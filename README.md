@@ -1,5 +1,6 @@
-Analyze: Snake or Tic Tac Toe
-Planning
+Game Decision: Snake or Tic Tac Toe
+
+Planning:
 - Snake game will be created
 - Snake speed increases as length and score increases
 - Length of speed will increase as snake consumes fruit/power up
@@ -10,6 +11,3 @@ Planning
 - Wednesday, January 1, 2021 = Starting Date 
 - Research and planning (Not Completed)
 - Sunday, January 11th, 2021 = Implementation Date (Not Completed) 
-Create
-Test
-Refine
