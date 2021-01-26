@@ -49,4 +49,4 @@ public class theBall extends Rectangle{
 		g.setColor(Color.yellow);
 		g.fillOval(x, y, height, width);
 	}
-}
+
