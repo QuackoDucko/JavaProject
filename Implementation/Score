@@ -1,0 +1,35 @@
+package javaapplication16;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author boboh
+ */
+import java.awt.*;
+
+public class Score extends Rectangle{
+
+	static int GameWidth;
+	static int GameHeight;
+	int player1;
+	int player2;
+	
+	Score(int GameWidth, int GameHeight){
+		Score.GameWidth = GameWidth;
+		Score.GameHeight = GameHeight;
+	}
+	public void draw(Graphics g) {
+		g.setColor(Color.white);
+		g.setFont(new Font("Arial",Font.PLAIN,60));
+		
+		g.drawLine(GameWidth/2, 0, GameWidth/2, GameHeight);
+		
+		g.drawString(String.valueOf(player1/10)+String.valueOf(player1%10), (GameWidth/2)-85, 60);
+		g.drawString(String.valueOf(player2/10)+String.valueOf(player2%10), (GameWidth/2)+20, 60);
+	}
+}
