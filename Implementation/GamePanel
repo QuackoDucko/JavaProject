@@ -1,0 +1,156 @@
+package javaapplication16;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author boboh
+ */
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
+
+public class GamePanel extends JPanel implements Runnable{
+
+	static final int GameWidth = 1200;
+	static final int GameHeight = (int)(GameWidth * (0.5));
+	static final Dimension ScreenSize = new Dimension(GameWidth,GameHeight);
+	static final int BallSize = 25;
+	static final int PaddleWidth = 25;
+	static final int PaddleHeight = 150;
+	Thread gameThread;
+	Image image;
+	Graphics graphics;
+	Random random;
+	Paddle paddle1;
+	Paddle paddle2;
+	theBall ball;
+	Score score;
+	
+	GamePanel(){
+		newPaddles();
+		newBall();
+		score = new Score(GameWidth,GameHeight);
+		this.setFocusable(true);
+		this.addKeyListener(new AL());
+		this.setPreferredSize(ScreenSize);
+		
+		gameThread = new Thread(this);
+		gameThread.start();
+	}
+	
+	public void newBall() {
+		random = new Random();
+		ball = new theBall((GameWidth/2)-(BallSize/2),random.nextInt(GameHeight-BallSize),BallSize,BallSize);
+	}
+	public void newPaddles() {
+		paddle1 = new Paddle(0,(GameHeight/2)-(PaddleHeight/2),PaddleWidth,PaddleHeight,1);
+		paddle2 = new Paddle(GameWidth-PaddleWidth,(GameHeight/2)-(PaddleHeight/2),PaddleWidth,PaddleHeight,2);
+	}
+	public void paint(Graphics g) {
+		image = createImage(getWidth(),getHeight());
+		graphics = image.getGraphics();
+		draw(graphics);
+		g.drawImage(image,0,0,this);
+	}
+	public void draw(Graphics g) {
+		paddle1.draw(g);
+		paddle2.draw(g);
+		ball.draw(g);
+		score.draw(g);
+Toolkit.getDefaultToolkit().sync(); 
+
+	}
+	public void move() {
+		paddle1.move();
+		paddle2.move();
+		ball.move();
+	}
+	public void checkCollision() {
+		
+		
+		if(ball.y <=0) {
+                    ball.setYDirection(-ball.ySpeed);
+                } else {
+                }
+		if(ball.y >= GameHeight-BallSize) {
+			ball.setYDirection(-ball.ySpeed);
+		}
+		//bounce ball off paddles
+		if(ball.intersects(paddle1)) {
+			ball.xSpeed = Math.abs(ball.xSpeed);
+			ball.xSpeed++; //optional for more difficulty
+			if(ball.ySpeed>0)
+				ball.ySpeed++; //optional for more difficulty
+			else
+				ball.ySpeed--;
+			ball.setXDirection(ball.xSpeed);
+			ball.setYDirection(ball.ySpeed);
+		}
+		if(ball.intersects(paddle2)) {
+			ball.xSpeed = Math.abs(ball.xSpeed);
+			ball.xSpeed++; //optional for more difficulty
+			if(ball.ySpeed>0)
+				ball.ySpeed++; //optional for more difficulty
+			else
+				ball.ySpeed--;
+			ball.setXDirection(-ball.xSpeed);
+			ball.setYDirection(ball.ySpeed);
+		}
+		//stops paddles at window edges
+		if(paddle1.y<=0)
+			paddle1.y=0;
+		if(paddle1.y >= (GameHeight-PaddleHeight))
+			paddle1.y = GameHeight-PaddleHeight;
+		if(paddle2.y<=0)
+			paddle2.y=0;
+		if(paddle2.y >= (GameHeight-PaddleHeight))
+			paddle2.y = GameHeight-PaddleHeight;
+		//give a player 1 point and creates new paddles & ball
+		if(ball.x <=0) {
+			score.player2++;
+			newPaddles();
+			newBall();
+			System.out.println("Player's 2 score is: "+score.player2);
+		}
+		if(ball.x >= GameWidth-BallSize) {
+			score.player1++;
+			newPaddles();
+			newBall();
+			System.out.println("Player's 1 score is "+score.player1);
+		}
+	}
+	public void run() {
+		//game loop
+		long lastTime = System.nanoTime();
+		double amountOfTicks = 60.0;
+		double ns = 1000000000 / amountOfTicks;
+		double delta = 0;
+		while(true) {
+			long now = System.nanoTime();
+			delta += (now -lastTime)/ns;
+			lastTime = now;
+			if(delta >=1) {
+				move();
+				checkCollision();
+				repaint();
+				delta--;
+			}
+		}
+	}
+	public class AL extends KeyAdapter{
+		public void keyPressed(KeyEvent e) {
+			paddle1.keyPressed(e);
+			paddle2.keyPressed(e);
+		}
+		public void keyReleased(KeyEvent e) {
+			paddle1.keyReleased(e);
+			paddle2.keyReleased(e);
+		}
+	}
+}
