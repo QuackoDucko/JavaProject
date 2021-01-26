@@ -1,0 +1,31 @@
+package javaapplication16;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author boboh
+ */
+import java.awt.*;
+import javax.swing.*;
+
+public class PongStart extends JFrame{
+
+	GamePanel panel;
+	
+	PongStart(){
+		panel = new GamePanel();
+		this.add(panel);
+		this.setTitle("Pong ICS4U");
+		this.setResizable(false);
+		this.setBackground(Color.black);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.pack();
+		this.setVisible(true);
+		this.setLocationRelativeTo(null);
+	}
+}
