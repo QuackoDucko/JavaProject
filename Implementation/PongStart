@@ -15,14 +15,14 @@ import javax.swing.*;
 
 public class PongStart extends JFrame{
 
-	GamePanel panel;
+	Panel panel;
 	
 	PongStart(){
-		panel = new GamePanel();
+		panel = new Panel();
 		this.add(panel);
 		this.setTitle("Pong ICS4U");
 		this.setResizable(false);
-		this.setBackground(Color.black);
+		this.setBackground(Color.orange);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
