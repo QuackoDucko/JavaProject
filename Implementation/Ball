@@ -13,7 +13,7 @@ package javaapplication16;
 import java.awt.*;
 import java.util.*;
 
-public class theBall extends Rectangle{
+public final class theBall extends Rectangle{
 
 	Random random;
 	int xSpeed;
@@ -46,7 +46,7 @@ public class theBall extends Rectangle{
 		y += ySpeed;
 	}
 	public void draw(Graphics g) {
-		g.setColor(Color.yellow);
+		g.setColor(Color.red);
 		g.fillOval(x, y, height, width);
 	}
 }
