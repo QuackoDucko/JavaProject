@@ -5,6 +5,8 @@
  */
 package javaapplication16;
 
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author boboh
@@ -12,11 +14,18 @@ package javaapplication16;
 
 
 //**********************************************************
-public class PongGame {
+public class Pong {
 
 	public static void main(String[] args) {
 		
-		PongStart frame = new PongStart();
-		
-	}
+		new StartMenu().setVisible(true);
+        	}
+
+    static void setVisible(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    static void addActionListener(ActionListener actionListener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
