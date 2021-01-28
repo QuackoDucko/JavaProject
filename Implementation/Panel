@@ -15,14 +15,14 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-public class GamePanel extends JPanel implements Runnable{
+public final class Panel extends JPanel implements Runnable{
 
-	static final int GameWidth = 1200;
+	static final int GameWidth = 700;
 	static final int GameHeight = (int)(GameWidth * (0.5));
 	static final Dimension ScreenSize = new Dimension(GameWidth,GameHeight);
-	static final int BallSize = 25;
-	static final int PaddleWidth = 25;
-	static final int PaddleHeight = 150;
+	static final int BallSize = 20;
+	static final int PaddleWidth = 15;
+	static final int PaddleHeight = 75;
 	Thread gameThread;
 	Image image;
 	Graphics graphics;
@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
 	theBall ball;
 	Score score;
 	
-	GamePanel(){
+	Panel(){
 		newPaddles();
 		newBall();
 		score = new Score(GameWidth,GameHeight);
@@ -52,6 +52,12 @@ public class GamePanel extends JPanel implements Runnable{
 		paddle1 = new Paddle(0,(GameHeight/2)-(PaddleHeight/2),PaddleWidth,PaddleHeight,1);
 		paddle2 = new Paddle(GameWidth-PaddleWidth,(GameHeight/2)-(PaddleHeight/2),PaddleWidth,PaddleHeight,2);
 	}
+
+    /**
+     *
+     * @param g
+     */
+    @Override
 	public void paint(Graphics g) {
 		image = createImage(getWidth(),getHeight());
 		graphics = image.getGraphics();
@@ -81,12 +87,12 @@ Toolkit.getDefaultToolkit().sync();
 		if(ball.y >= GameHeight-BallSize) {
 			ball.setYDirection(-ball.ySpeed);
 		}
-		//bounce ball off paddles
+
 		if(ball.intersects(paddle1)) {
 			ball.xSpeed = Math.abs(ball.xSpeed);
-			ball.xSpeed++; //optional for more difficulty
+			ball.xSpeed++; 
 			if(ball.ySpeed>0)
-				ball.ySpeed++; //optional for more difficulty
+				ball.ySpeed++; 
 			else
 				ball.ySpeed--;
 			ball.setXDirection(ball.xSpeed);
@@ -94,15 +100,15 @@ Toolkit.getDefaultToolkit().sync();
 		}
 		if(ball.intersects(paddle2)) {
 			ball.xSpeed = Math.abs(ball.xSpeed);
-			ball.xSpeed++; //optional for more difficulty
+			ball.xSpeed++; 
 			if(ball.ySpeed>0)
-				ball.ySpeed++; //optional for more difficulty
+				ball.ySpeed++; 
 			else
 				ball.ySpeed--;
 			ball.setXDirection(-ball.xSpeed);
 			ball.setYDirection(ball.ySpeed);
 		}
-		//stops paddles at window edges
+		
 		if(paddle1.y<=0)
 			paddle1.y=0;
 		if(paddle1.y >= (GameHeight-PaddleHeight))
@@ -111,22 +117,27 @@ Toolkit.getDefaultToolkit().sync();
 			paddle2.y=0;
 		if(paddle2.y >= (GameHeight-PaddleHeight))
 			paddle2.y = GameHeight-PaddleHeight;
-		//give a player 1 point and creates new paddles & ball
+		
 		if(ball.x <=0) {
 			score.player2++;
 			newPaddles();
 			newBall();
-			System.out.println("Player's 2 score is: "+score.player2);
+			System.out.println("Player 2's score is: "+score.player2);
 		}
 		if(ball.x >= GameWidth-BallSize) {
 			score.player1++;
 			newPaddles();
 			newBall();
-			System.out.println("Player's 1 score is "+score.player1);
+			System.out.println("Player 1's score is: "+score.player1);
 		}
 	}
+
+    /**
+     *
+     */
+    @Override
 	public void run() {
-		//game loop
+	
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
@@ -144,10 +155,22 @@ Toolkit.getDefaultToolkit().sync();
 		}
 	}
 	public class AL extends KeyAdapter{
+
+            /**
+             *
+             * @param e
+             */
+            @Override
 		public void keyPressed(KeyEvent e) {
 			paddle1.keyPressed(e);
 			paddle2.keyPressed(e);
 		}
+
+            /**
+             *
+             * @param e
+             */
+            @Override
 		public void keyReleased(KeyEvent e) {
 			paddle1.keyReleased(e);
 			paddle2.keyReleased(e);
